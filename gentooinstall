@@ -5,7 +5,7 @@ CODENAME="gentooinstall"
 COPYRIGHT="Copyright (C) 2016 Nathan Shearer"
 LICENSE="GNU General Public License 2.0"
 VERSION="0.0.0.0"
-MIRROR="http://mirrors.163.com/gentoo/"
+MIRROR="http://mirrors.163.com/gentoo"
 
 function gentooinstall_architecture
 {
