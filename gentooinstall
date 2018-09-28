@@ -614,22 +614,22 @@ function gentooinstall_phase_stage3download
 
 function gentooinstall_phase_stage3signature
 {
-	# gentooinstall_check_dependencies gpg
-	# echo "Verifying the cryptographic signature of the stage3 hashes..."
-	# # verify the gentoo public key is installed
-	# gpg --fingerprint 0xBB572E0E2D182910 >/dev/null 2>/dev/null
-	# if [ $? -ne 0 ]; then
-	# 	echo "The Gentoo Linux Release Engineering public key is not installed"
-	# 	echo "Installing the Gentoo Linux Release Engineering public key..."
-	# 	gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys 0xBB572E0E2D182910
-	# fi
-	# # check the signature
-	# local STAGE3_SIGNATURE=$(ls "$DESTINATION/stage3-"*".tar."*".DIGESTS.asc" | head -n 1)
-	# gpg --verify "$STAGE3_SIGNATURE" >/dev/null 2>/dev/null
-	# if [ $? -ne 0 ]; then
-	# 	echo "error: the cryptographic signature of \"$STAGE3_SIGNATURE\" could not be verified!"
-	# 	exit 1
-	# fi
+	gentooinstall_check_dependencies gpg
+	echo "Verifying the cryptographic signature of the stage3 hashes..."
+	# verify the gentoo public key is installed
+	gpg --fingerprint 0xBB572E0E2D182910 >/dev/null 2>/dev/null
+	if [ $? -ne 0 ]; then
+		echo "The Gentoo Linux Release Engineering public key is not installed"
+		echo "Installing the Gentoo Linux Release Engineering public key..."
+		gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys 0xBB572E0E2D182910
+	fi
+	# check the signature
+	local STAGE3_SIGNATURE=$(ls "$DESTINATION/stage3-"*".tar."*".DIGESTS.asc" | head -n 1)
+	gpg --verify "$STAGE3_SIGNATURE" >/dev/null 2>/dev/null
+	if [ $? -ne 0 ]; then
+		echo "error: the cryptographic signature of \"$STAGE3_SIGNATURE\" could not be verified!"
+		exit 1
+	fi
 }
 
 function gentooinstall_phase_stage3hash
@@ -701,7 +701,7 @@ EMAIL=""
 KERNEL="/boot/kernel"
 NICE=0
 PASSWORD="password"
-PHASES="stage3download,stage3signature,stage3hash,extract,dynamictranslation,deletestage3,resolvconf,mountchroot,portage,timezone,locale,update,password"
+PHASES="stage3download,stage3hash,extract,dynamictranslation,deletestage3,resolvconf,mountchroot,portage,timezone,locale,update,password"
 PORTAGE="latest"
 STAGE3="latest"
 THREADS=$(grep -c processor /proc/cpuinfo)
